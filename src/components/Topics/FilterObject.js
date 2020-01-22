@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 
-export default class FilterObject extends Component {
+class FilterObject extends Component {
   constructor() {
     super();
-
     this.state = {
       employees: [
         {
@@ -21,36 +20,35 @@ export default class FilterObject extends Component {
           title: "CEO"
         }
       ],
-
-      userInput: "",
+      filterInput: "",
       filteredEmployees: []
     };
   }
 
-  handleChange(val) {
-    this.setState({ userInput: val });
-  }
+  handleChange = val => {
+    this.setState({ filterInput: val });
+  };
 
-  filterEmployees(prop) {
-    let employees = this.state.employees;
+  handleFilter(val) {
+    const { employees } = this.state;
     let filteredEmployees = [];
-
     for (let i = 0; i < employees.length; i++) {
-      if (employees[i].hasOwnProperty(prop)) {
+      if (employees[i].hasOwnProperty(val)) {
         filteredEmployees.push(employees[i]);
       }
     }
-
     this.setState({ filteredEmployees: filteredEmployees });
   }
 
   render() {
+    const { employees, filterInput, filteredEmployees } = this.state;
+    console.log(filterInput);
+    console.log(filteredEmployees);
     return (
       <div className="puzzleBox filterObjectPB">
-        <h4> Filter Object </h4>
+        <h4>Filter Object</h4>
         <span className="puzzleText">
-          {" "}
-          Original: {JSON.stringify(this.state.employees, null, 10)}{" "}
+          Original: {JSON.stringify(this.state.employees)}
         </span>
         <input
           className="inputLine"
@@ -58,20 +56,17 @@ export default class FilterObject extends Component {
         ></input>
         <button
           className="confirmationButton"
-          onClick={() => this.filterEmployees(this.state.userInput)}
+          onClick={e => this.handleFilter(this.state.filterInput)}
         >
-          {" "}
-          Filter{" "}
+          Filter
         </button>
+
         <span className="resultsBox filterObjectRB">
-          {" "}
-          Filtered: {JSON.stringify(
-            this.state.filteredEmployees,
-            null,
-            10
-          )}{" "}
+          Filtered: {JSON.stringify(this.state.filteredEmployees)}
         </span>
       </div>
     );
   }
 }
+
+export default FilterObject;
